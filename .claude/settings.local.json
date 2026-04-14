@@ -10,7 +10,12 @@
       "Bash(python:*)",
       "Bash(cd:*)",
       "Bash(ls:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git push:*)",
+      "Bash(git lfs:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
