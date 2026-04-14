@@ -342,7 +342,7 @@ def page_anomaly_guide():
         '이상 시나리오': ['서버 과부하', '애플리케이션 부하', '커널 이슈', '디스크 병목', 'CPU 포화'],
         '파일': ['10_SMS_CPU_5min.csv'] * 5
     }
-    st.dataframe(pd.DataFrame(cpu_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(cpu_data), width='stretch')
 
     st.subheader("2️⃣ 메모리 이상 탐지")
     mem_data = {
@@ -352,7 +352,7 @@ def page_anomaly_guide():
         '이상 시나리오': ['메모리 부족', '물리 메모리 고갈', '버퍼 이상', '캐시 비정상'],
         '파일': ['11_SMS_메모리_5min.csv'] * 4
     }
-    st.dataframe(pd.DataFrame(mem_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(mem_data), width='stretch')
 
     st.subheader("3️⃣ 파일시스템 이상 탐지")
     fs_data = {
@@ -362,7 +362,7 @@ def page_anomaly_guide():
         '이상 시나리오': ['디스크 풀', '공간 급감', 'Inode 고갈'],
         '파일': ['12_SMS_파일시스템_5min.csv'] * 3
     }
-    st.dataframe(pd.DataFrame(fs_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(fs_data), width='stretch')
 
     st.markdown("---")
 
@@ -377,7 +377,7 @@ def page_anomaly_guide():
         '이상 시나리오': ['DDoS, 대용량 전송', '데이터 유출, 백업', '패킷 폭주', '패킷 폭주', '대역폭 포화', '대역폭 포화'],
         '파일': ['04_NMS_IF성능_5min.csv'] * 6
     }
-    st.dataframe(pd.DataFrame(traffic_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(traffic_data), width='stretch')
 
     st.subheader("5️⃣ 네트워크 오류 탐지")
     error_data = {
@@ -387,7 +387,7 @@ def page_anomaly_guide():
         '이상 시나리오': ['패킷 손상', '패킷 손상', '물리적 문제', '네트워크 혼잡', '수신 버퍼 오버플로', '송신 버퍼 오버플로', '정책 폐기', '정책 폐기'],
         '파일': ['04_NMS_IF성능_5min.csv'] * 8
     }
-    st.dataframe(pd.DataFrame(error_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(error_data), width='stretch')
 
     st.markdown("---")
 
@@ -437,7 +437,7 @@ def page_anomaly_guide():
         ],
         '알고리즘': ['Isolation Forest'] * 7
     }
-    st.dataframe(pd.DataFrame(combo_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(combo_data), width='stretch')
 
     st.markdown("---")
 
@@ -451,7 +451,7 @@ def page_anomaly_guide():
         '장점': ['간단, 실시간 적용 가능', '정상 패턴 학습 가능', '급격한 변화 즉시 탐지', '트렌드/계절성 고려'],
         '구현 난이도': ['쉬움', '중간', '쉬움', '어려움']
     }
-    st.dataframe(pd.DataFrame(ts_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(ts_data), width='stretch')
 
     st.markdown("---")
 
@@ -489,7 +489,7 @@ def page_anomaly_guide():
             '모든 연속형 지표'
         ]
     }
-    st.dataframe(pd.DataFrame(algo_summary), use_container_width=True)
+    st.dataframe(pd.DataFrame(algo_summary), width='stretch')
 
     st.markdown("---")
 
@@ -684,7 +684,7 @@ def page_raw_eda():
 
     col_info = pd.DataFrame({
         '컬럼명': df.columns,
-        '데이터타입': df.dtypes.values,
+        '데이터타입': df.dtypes.astype(str).values,
         '결측수': df.isnull().sum().values,
         '결측률(%)': (df.isnull().sum().values / len(df) * 100).round(2),
         '고유값수': df.nunique().values
@@ -711,7 +711,7 @@ def page_raw_eda():
     # 컬럼 순서 재정렬
     col_info = col_info[['컬럼명', '설명', '데이터타입', '결측수', '결측률(%)', '고유값수', '샘플값']]
 
-    st.dataframe(col_info, use_container_width=True, height=300)
+    st.dataframe(col_info, width='stretch', height=300)
 
     # ===== 3. 결측치 시각화 =====
     st.subheader("3️⃣ 결측치 현황")
@@ -732,7 +732,7 @@ def page_raw_eda():
                 color_continuous_scale='Reds'
             )
             fig.update_layout(height=300, coloraxis_showscale=False)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
         with col2:
             st.markdown("#### 결측 컬럼 요약")
@@ -751,7 +751,7 @@ def page_raw_eda():
     if len(numeric_cols) > 0:
         stats_df = df[numeric_cols].describe().T
         stats_df.columns = ['개수', '평균', '표준편차', '최소', '25%', '50%', '75%', '최대']
-        st.dataframe(stats_df.round(2), use_container_width=True, height=250)
+        st.dataframe(stats_df.round(2), width='stretch', height=250)
 
         # 분포 시각화
         st.markdown("#### 분포 시각화")
@@ -773,14 +773,14 @@ def page_raw_eda():
                         color_discrete_sequence=['#3498db']
                     )
                     fig.update_layout(height=250, showlegend=False)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
     else:
         st.info("수치형 컬럼이 없습니다.")
 
     # ===== 5. 범주형 컬럼 분석 =====
     st.subheader("5️⃣ 범주형 컬럼 분석")
 
-    cat_cols = df.select_dtypes(include=['object']).columns.tolist()
+    cat_cols = df.select_dtypes(include=['object', 'string']).columns.tolist()
 
     if len(cat_cols) > 0:
         selected_cat = st.selectbox("범주형 컬럼 선택", cat_cols)
@@ -802,7 +802,7 @@ def page_raw_eda():
                 textposition='outside'
             )
             fig.update_layout(height=350)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
         with col2:
             st.markdown(f"#### {selected_cat} 요약")
@@ -826,11 +826,11 @@ def page_raw_eda():
     tab1, tab2, tab3 = st.tabs(["처음 N행", "마지막 N행", "랜덤 샘플"])
 
     with tab1:
-        st.dataframe(df.head(sample_size), use_container_width=True)
+        st.dataframe(df.head(sample_size), width='stretch')
     with tab2:
-        st.dataframe(df.tail(sample_size), use_container_width=True)
+        st.dataframe(df.tail(sample_size), width='stretch')
     with tab3:
-        st.dataframe(df.sample(min(sample_size, len(df))), use_container_width=True)
+        st.dataframe(df.sample(min(sample_size, len(df))), width='stretch')
 
     # ===== 7. 중복 데이터 =====
     st.subheader("7️⃣ 중복 데이터 분석")
@@ -939,7 +939,7 @@ def page_eda(data):
                     )
                     fig.update_traces(textposition='inside', textinfo='percent+label')
                     fig.update_layout(showlegend=False, height=350)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
             with col2:
                 if 'VENDOR' in df_nms.columns:
@@ -954,7 +954,7 @@ def page_eda(data):
                         color_continuous_scale='Blues'
                     )
                     fig.update_layout(height=350, showlegend=False, coloraxis_showscale=False)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
         st.markdown("---")
 
@@ -977,7 +977,7 @@ def page_eda(data):
                     )
                     fig.update_traces(textposition='inside', textinfo='percent+label')
                     fig.update_layout(showlegend=False, height=350)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
             with col2:
                 if 'VENDOR' in df_sms.columns:
@@ -994,7 +994,7 @@ def page_eda(data):
                         textposition='outside'
                     )
                     fig.update_layout(height=350, showlegend=False)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
     # -------------- 탭2: 리소스 분석 --------------
     with tab2:
@@ -1037,7 +1037,7 @@ def page_eda(data):
                 fig.add_vline(x=90, line_dash="dash", line_color="#e74c3c", line_width=2,
                              annotation_text="위험 90%", annotation_position="top")
                 fig.update_layout(height=350)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             with col2:
                 # 서버별 통계 계산
@@ -1074,7 +1074,7 @@ def page_eda(data):
                     xaxis=dict(range=[0, 105]),
                     yaxis=dict(range=[0, 105])
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             # 시간대별 추이
             if 'DATETIME' in df_cpu.columns:
@@ -1119,7 +1119,7 @@ def page_eda(data):
                     height=350,
                     xaxis=dict(tickmode='linear', dtick=2)
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
         st.markdown("---")
 
@@ -1156,7 +1156,7 @@ def page_eda(data):
                 fig.add_vline(x=80, line_dash="dash", line_color="#f39c12", line_width=2)
                 fig.add_vline(x=90, line_dash="dash", line_color="#e74c3c", line_width=2)
                 fig.update_layout(height=350)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             with col2:
                 # 서버별 통계 계산
@@ -1193,7 +1193,7 @@ def page_eda(data):
                     xaxis=dict(range=[0, 105]),
                     yaxis=dict(range=[0, 105])
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
         st.markdown("---")
 
@@ -1241,7 +1241,7 @@ def page_eda(data):
                         color_discrete_sequence=['#1abc9c']
                     )
                     fig.update_layout(height=350)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
             with col2:
                 if 'AVG_OUTBPS' in df_if_sample.columns:
@@ -1253,7 +1253,7 @@ def page_eda(data):
                         color_discrete_sequence=['#e67e22']
                     )
                     fig.update_layout(height=350)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
     # -------------- 탭3: 상관관계 --------------
     with tab3:
@@ -1335,7 +1335,7 @@ def page_eda(data):
                         fig.add_hline(y=80, line_dash="dash", line_color="#f39c12", line_width=1)
 
                         fig.update_layout(height=450)
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
 
         st.markdown("---")
 
@@ -1374,7 +1374,7 @@ def page_eda(data):
                         color_discrete_sequence=['#1abc9c']
                     )
                     fig.update_layout(height=400)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
     # -------------- 탭4: 시계열 패턴 --------------
     with tab4:
@@ -1419,7 +1419,7 @@ def page_eda(data):
                     yaxis_title="CPU 사용률 (%)",
                     height=350
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             with col2:
                 # 요일 × 시간 히트맵
@@ -1446,7 +1446,7 @@ def page_eda(data):
                     aspect='auto'
                 )
                 fig.update_layout(height=350)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             st.markdown("---")
 
@@ -1471,7 +1471,7 @@ def page_eda(data):
                 yaxis_title="CPU 사용률 (%)",
                 height=300
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
             # 서버별 시계열
             st.subheader("🖥️ 서버별 시계열 비교")
@@ -1490,7 +1490,7 @@ def page_eda(data):
             )
             fig.add_hline(y=80, line_dash="dash", line_color="#f39c12", line_width=1)
             fig.update_layout(height=350)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
             # 서버별 시간대별 패턴
             server_hourly = df_cpu.groupby(['HOUR', 'MNG_NO'])['CPU_USAGE_AVG'].mean().reset_index()
@@ -1506,7 +1506,7 @@ def page_eda(data):
             )
             fig.add_hline(y=80, line_dash="dash", line_color="#f39c12", line_width=1)
             fig.update_layout(height=350, xaxis=dict(tickmode='linear', dtick=2))
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
             st.markdown("---")
 
@@ -1537,7 +1537,7 @@ def page_eda(data):
             col1, col2 = st.columns(2)
             with col1:
                 st.dataframe(work_stats.round(2).rename(columns={'mean': '평균', 'std': '표준편차', 'max': '최대'}),
-                            use_container_width=True)
+                            width='stretch')
             with col2:
                 fig = px.bar(
                     x=['업무시간', '비업무시간'],
@@ -1548,7 +1548,7 @@ def page_eda(data):
                     title="업무/비업무 시간대 평균 CPU"
                 )
                 fig.update_layout(height=250, showlegend=False)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
     # -------------- 탭5: 이상치 분석 --------------
     with tab5:
@@ -1614,7 +1614,7 @@ def page_eda(data):
                     yaxis_title="확률 밀도",
                     height=350
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             with col2:
                 # Q-Q Plot
@@ -1645,7 +1645,7 @@ def page_eda(data):
                     yaxis_title="실제 분위수",
                     height=350
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             st.markdown("---")
 
@@ -1673,7 +1673,7 @@ def page_eda(data):
                     yaxis_title="빈도",
                     height=300
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
                 # Z-Score 이상치 비율
                 z2_pct = (z_scores > 2).mean() * 100
@@ -1701,7 +1701,7 @@ def page_eda(data):
                     yaxis_title="CPU 사용률 (%)",
                     height=300
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
                 iqr_outliers = ((cpu_data < lower_bound) | (cpu_data > upper_bound)).sum()
                 iqr_pct = iqr_outliers / len(cpu_data) * 100
@@ -1734,7 +1734,7 @@ def page_eda(data):
                     color_continuous_scale='Reds'
                 )
                 fig.update_layout(height=300, coloraxis_showscale=False)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             with col2:
                 # 서버별 위험 비율
@@ -1746,13 +1746,13 @@ def page_eda(data):
                     color_continuous_scale='OrRd'
                 )
                 fig.update_layout(height=300, coloraxis_showscale=False)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
             # 서버별 상세 테이블
             st.markdown("#### 서버별 상세 통계")
             st.dataframe(
                 server_stats.style.background_gradient(subset=['변동계수', '위험비율(%)'], cmap='Reds'),
-                use_container_width=True
+                width='stretch'
             )
 
             # 고위험 서버 알림
@@ -1822,7 +1822,7 @@ def page_eda(data):
 
             if quality_data:
                 quality_df = pd.DataFrame(quality_data)
-                st.dataframe(quality_df, use_container_width=True)
+                st.dataframe(quality_df, width='stretch')
 
             # SMS CPU 상세 분석
             st.markdown("#### 💻 SMS CPU 데이터 상세 품질")
@@ -1843,7 +1843,7 @@ def page_eda(data):
                         color_discrete_sequence=['#e74c3c']
                     )
                     fig.update_layout(height=300)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                 else:
                     st.success("✅ CPU 데이터에 결측치가 없습니다.")
 
@@ -1862,7 +1862,7 @@ def page_eda(data):
                         aspect='auto'
                     )
                     fig.update_layout(height=300)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
             # 이상 값 탐지 (0%, 100% 등 비정상 값)
             st.markdown("#### ⚠️ 비정상 값 탐지")
@@ -2050,7 +2050,7 @@ def main():
             showlegend=True
         )
 
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
         # ============== CPU vs 메모리 분포 ==============
         if 'PHYSICAL_USED_PCT' in df_memory.columns:
@@ -2088,7 +2088,7 @@ def main():
                 fig2.add_hline(y=warning_threshold, line_dash="dash", line_color="orange")
 
                 fig2.update_layout(height=400)
-                st.plotly_chart(fig2, use_container_width=True)
+                st.plotly_chart(fig2, width='stretch')
 
         # ============== 이상 탐지 상세 ==============
         st.subheader("🚨 이상 탐지 상세")
@@ -2106,7 +2106,7 @@ def main():
 
             st.dataframe(
                 anomaly_detail[available_cols].sort_values('DATETIME', ascending=False).head(50),
-                use_container_width=True
+                width='stretch'
             )
 
             # ============== LLM 분석 (내부망 Ollama) ==============
@@ -2228,7 +2228,7 @@ def main():
                          row=2, col=1)
 
             fig.update_layout(height=600)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
             # 이상 데이터 상세
             st.subheader("🚨 이상 트래픽 상세")
@@ -2244,7 +2244,7 @@ def main():
                 anomaly_sorted = anomaly_with_info.nsmallest(20, 'anomaly_score')
                 display_cols = ['DATETIME', 'MNG_NO', 'DEV_NAME', 'DEV_IP', 'IF_IDX', 'AVG_INBPS', 'AVG_OUTBPS', 'anomaly_score']
                 available_display = [c for c in display_cols if c in anomaly_sorted.columns]
-                st.dataframe(anomaly_sorted[available_display], use_container_width=True)
+                st.dataframe(anomaly_sorted[available_display], width='stretch')
 
                 # ============== LLM 분석 (NMS) ==============
                 st.subheader("🤖 AI 분석")
