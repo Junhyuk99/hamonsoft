@@ -1550,6 +1550,176 @@ def page_eda(data):
                 fig.update_layout(height=250, showlegend=False)
                 st.plotly_chart(fig, width='stretch')
 
+        # ========== 메모리 시계열 패턴 ==========
+        st.markdown("---")
+        st.header("🧠 메모리 시계열 패턴 분석")
+
+        if 'sms_memory' in data and 'DATETIME' in data['sms_memory'].columns:
+            df_mem = data['sms_memory'].copy()
+            df_mem['DATETIME'] = pd.to_datetime(df_mem['DATETIME'])
+            df_mem['HOUR'] = df_mem['DATETIME'].dt.hour
+            df_mem['DAYOFWEEK'] = df_mem['DATETIME'].dt.dayofweek
+            df_mem['DAY_NAME'] = df_mem['DATETIME'].dt.day_name()
+
+            mem_col = 'PHYSICAL_USED_PCT' if 'PHYSICAL_USED_PCT' in df_mem.columns else None
+
+            if mem_col:
+                # 요일별 패턴
+                st.subheader("📅 요일별 메모리 사용 패턴")
+
+                day_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                day_korean = {'Monday': '월', 'Tuesday': '화', 'Wednesday': '수',
+                             'Thursday': '목', 'Friday': '금', 'Saturday': '토', 'Sunday': '일'}
+
+                daily_stats = df_mem.groupby('DAY_NAME')[mem_col].agg(['mean', 'std']).reindex(day_order)
+                daily_stats['day_kr'] = [day_korean[d] for d in daily_stats.index]
+
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    fig = go.Figure()
+                    fig.add_trace(go.Bar(
+                        x=daily_stats['day_kr'],
+                        y=daily_stats['mean'],
+                        error_y=dict(type='data', array=daily_stats['std'], visible=True),
+                        marker_color='#9b59b6',
+                        name='평균 메모리'
+                    ))
+                    fig.update_layout(
+                        title="요일별 평균 메모리 사용률 (±표준편차)",
+                        xaxis_title="요일",
+                        yaxis_title="메모리 사용률 (%)",
+                        height=350
+                    )
+                    st.plotly_chart(fig, width='stretch')
+
+                with col2:
+                    # 히트맵
+                    heatmap_data = df_mem.groupby(['DAYOFWEEK', 'HOUR'])[mem_col].mean().reset_index()
+                    heatmap_pivot = heatmap_data.pivot(index='DAYOFWEEK', columns='HOUR', values=mem_col)
+                    heatmap_pivot = heatmap_pivot.reindex(
+                        index=range(7),
+                        columns=range(24),
+                        fill_value=np.nan
+                    )
+
+                    day_labels = ['월', '화', '수', '목', '금', '토', '일']
+                    hour_labels = [f'{h}시' for h in range(24)]
+
+                    fig = px.imshow(
+                        heatmap_pivot.values,
+                        labels=dict(x="시간", y="요일", color="메모리 %"),
+                        x=hour_labels,
+                        y=day_labels,
+                        color_continuous_scale='Purples',
+                        title="요일×시간대별 메모리 사용률 히트맵"
+                    )
+                    fig.update_layout(height=350)
+                    st.plotly_chart(fig, width='stretch')
+
+                # 시간대별 추이
+                st.subheader("⏰ 시간대별 메모리 사용률 추이")
+
+                hourly_stats = df_mem.groupby('HOUR')[mem_col].agg(['mean', 'std']).reset_index()
+
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(
+                    x=hourly_stats['HOUR'],
+                    y=hourly_stats['mean'] + hourly_stats['std'],
+                    mode='lines',
+                    line=dict(width=0),
+                    showlegend=False,
+                    hoverinfo='skip'
+                ))
+                fig.add_trace(go.Scatter(
+                    x=hourly_stats['HOUR'],
+                    y=hourly_stats['mean'] - hourly_stats['std'],
+                    mode='lines',
+                    line=dict(width=0),
+                    fill='tonexty',
+                    fillcolor='rgba(155, 89, 182, 0.3)',
+                    name='±1 표준편차'
+                ))
+                fig.add_trace(go.Scatter(
+                    x=hourly_stats['HOUR'],
+                    y=hourly_stats['mean'],
+                    mode='lines+markers',
+                    line=dict(color='#9b59b6', width=2),
+                    name='평균 메모리'
+                ))
+                fig.add_hline(y=80, line_dash="dash", line_color="#e74c3c", line_width=1,
+                             annotation_text="경고 80%")
+                fig.update_layout(
+                    title="시간대별 메모리 사용률 추이 (평균 ± 표준편차)",
+                    xaxis_title="시간 (시)",
+                    yaxis_title="메모리 사용률 (%)",
+                    height=350,
+                    xaxis=dict(tickmode='linear', dtick=2)
+                )
+                st.plotly_chart(fig, width='stretch')
+
+                # 서버별 시간대별 패턴
+                server_hourly = df_mem.groupby(['HOUR', 'MNG_NO'])[mem_col].mean().reset_index()
+
+                fig = px.line(
+                    server_hourly,
+                    x='HOUR',
+                    y=mem_col,
+                    color='MNG_NO',
+                    title="서버별 시간대별 메모리 사용률 패턴",
+                    labels={'HOUR': '시간', mem_col: '메모리 사용률 (%)', 'MNG_NO': '서버'},
+                    markers=True
+                )
+                fig.add_hline(y=80, line_dash="dash", line_color="#e74c3c", line_width=1)
+                fig.update_layout(height=350, xaxis=dict(tickmode='linear', dtick=2))
+                st.plotly_chart(fig, width='stretch')
+
+                st.markdown("---")
+
+                # 피크 시간대 분석
+                st.subheader("⏰ 메모리 피크 시간대 분석")
+
+                col1, col2, col3 = st.columns(3)
+
+                hourly_mean = df_mem.groupby('HOUR')[mem_col].mean()
+                peak_hour = hourly_mean.idxmax()
+                low_hour = hourly_mean.idxmin()
+
+                with col1:
+                    st.metric("피크 시간", f"{peak_hour}:00", f"평균 {hourly_mean[peak_hour]:.1f}%")
+                with col2:
+                    st.metric("최저 시간", f"{low_hour}:00", f"평균 {hourly_mean[low_hour]:.1f}%")
+                with col3:
+                    peak_low_diff = hourly_mean[peak_hour] - hourly_mean[low_hour]
+                    st.metric("피크-최저 차이", f"{peak_low_diff:.1f}%p")
+
+                # 업무시간 vs 비업무시간
+                st.markdown("#### 업무시간 vs 비업무시간")
+                df_mem['IS_WORK_HOUR'] = df_mem['HOUR'].between(9, 18)
+
+                work_stats = df_mem.groupby('IS_WORK_HOUR')[mem_col].agg(['mean', 'std', 'max'])
+                work_stats.index = ['비업무시간 (19-08시)', '업무시간 (09-18시)']
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.dataframe(work_stats.round(2).rename(columns={'mean': '평균', 'std': '표준편차', 'max': '최대'}),
+                                width='stretch')
+                with col2:
+                    fig = px.bar(
+                        x=['업무시간', '비업무시간'],
+                        y=[work_stats.loc['업무시간 (09-18시)', 'mean'],
+                           work_stats.loc['비업무시간 (19-08시)', 'mean']],
+                        color=['업무시간', '비업무시간'],
+                        color_discrete_map={'업무시간': '#9b59b6', '비업무시간': '#bdc3c7'},
+                        title="업무/비업무 시간대 평균 메모리"
+                    )
+                    fig.update_layout(height=250, showlegend=False)
+                    st.plotly_chart(fig, width='stretch')
+            else:
+                st.warning("메모리 사용률 컬럼(PHYSICAL_USED_PCT)이 없습니다.")
+        else:
+            st.warning("메모리 데이터가 없거나 DATETIME 컬럼이 없습니다.")
+
     # -------------- 탭5: 이상치 분석 --------------
     with tab5:
         st.header("🔬 이상치 분석")
