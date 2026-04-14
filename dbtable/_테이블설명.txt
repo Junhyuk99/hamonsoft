@@ -1,0 +1,551 @@
+NETIS DB 테이블별 원본 데이터 + 컬럼 설명 (DB 코멘트 포함)
+
+
+_1 파티션 = 5분 수집 데이터 (로테이션), _last = 최종 스냅샷
+_3 파티션 = SMS Agent 5분 수집 (2025/04~09)
+
+==========================================================================================
+cm_Dev10  (457건, 78컬럼)  PK: MNG_NO
+DB코멘트: 장비 정보
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  ENG_NO                         decimal(5,0)              YES         엔진번호
+  2  PARENT_MNG_NO                  decimal(10,0)             YES         상위장비번호
+  3  MNG_NO                         decimal(10,0)             NO    PRI   장비번호
+  4  PROFILE_NO                     int(11)                   YES   MUL   프로파일번호
+  5  DEV_NAME                       varchar(100)              YES         장비명
+  6  USER_DEV_NAME                  varchar(100)              YES         사용자장비명
+  7  DEV_IP                         varchar(15)               YES   MUL   장비아이피
+  8  GRP_NO                         decimal(10,0)             YES   MUL   그룹번호
+  9  DEV_KIND1                      varchar(20)               YES         장비종류1
+ 10  DEV_KIND2                      varchar(50)               YES         장비종류2
+ 11  COMMUNITY                      varchar(30)               YES         RO커뮤니티(SNMP v1,v2c)
+ 12  SET_COMMUNITY                  varchar(30)               YES         RW커뮤니티(SNMP v1,v2c)
+ 13  SNMP_VER                       decimal(1,0)              YES         SNMP버전
+ 14  MODEL                          varchar(100)              YES         모델
+ 15  VENDOR                         varchar(30)               YES         제조사
+ 16  MEMORY                         decimal(15,0)             YES         메모리
+ 17  SYS_DESC                       text                      YES         시스템설명
+ 18  SYS_UPTIME                     varchar(30)               YES         시스템부팅시간
+ 19  MACHINE_VER                    text                      YES         MACHINE_VER
+ 20  MACHINE_KIND                   text                      YES         MACHINE_KIND
+ 21  MACHINE_SERIAL                 text                      YES         MACHINE_SERIAL
+ 22  USER_MACHINE_SERIAL            text                      YES         선택 Serial
+ 23  SAMPLE_RATE                    float                     YES         SAMPLE_RATE
+ 24  IS_MAIN                        decimal(1,0)              YES         주요장비여부(사용여부체크필요)
+ 25  PERF_POLL                      decimal(1,0)              NO          성능수집여부
+ 26  CFG_POLL                       decimal(1,0)              NO          Config수집여부
+ 27  ICMP_POLL                      decimal(1,0)              NO          ICMP수집여부
+ 28  ARP_POLL                       decimal(1,0)              NO          ARP수집여부
+ 29  GRP_POLL                       decimal(2,0)              YES   MUL   GRP_POLL
+ 30  CONF_MODE                      varchar(30)               YES         Config모드
+ 31  SETUP_LOC                      varchar(60)               YES         SETUP_LOC
+ 32  UPD_DATE                       timestamp                 YES         UPD_DATE
+ 33  CHGMGR_DATE                    timestamp                 YES         변경관리 완료시간
+ 34  UPS_VOLT                       tinyint(4)                YES         UPS 종류(1: 단상, 3: 3상)
+ 35  VENDOR_CODE                    varchar(16)               YES         VENDOR_CODE
+ 36  USAGE                          varchar(50)               YES         USAGE
+ 37  IS_ROUTING                     decimal(1,0)              YES         IS_ROUTING
+ 38  SYS_OBJECTID                   varchar(100)              YES         SYS_OBJECTID
+ 39  SNMP_ENGINEID                  varchar(200)              YES         SNMP_ENGINEID
+ 40  SNMP_USER_ID                   varchar(100)              YES         SNMP_USER_ID
+ 41  SNMP_SECURITY_LEVEL            decimal(1,0)              YES         SNMP_SECURITY_LEVEL
+ 42  SNMP_AUTH_TYPE                 decimal(1,0)              YES         SNMP_AUTH_TYPE
+ 43  SNMP_AUTH_KEY                  varchar(100)              YES         SNMP_AUTH_KEY
+ 44  SNMP_ENCRYPT_TYPE              decimal(1,0)              YES         SNMP_ENCRYPT_TYPE
+ 45  SNMP_ENCRYPT_KEY               varchar(100)              YES         SNMP_ENCRYPT_KEY
+ 46  EVT_POLL                       decimal(1,0)              YES         EVT_POLL
+ 47  POLL_GRP_NO                    decimal(3,0)              YES         POLL_GRP_NO
+ 48  POLL_GRP_NO_FIX                decimal(3,0)              YES         POLL_GRP_NO_FIX
+ 49  NET_POLL_GRP_NO                decimal(3,0)              YES         망구분
+ 50  LAT                            decimal(14,9)             YES         위도
+ 51  LNT                            decimal(12,7)             YES         경도
+ 52  FIRST_REG_TIME                 varchar(14)               YES         FIRST_REG_TIME
+ 53  AP_KIND                        decimal(1,0)              YES         AP_KIND
+ 54  CHAR_CODE                      decimal(1,0)              YES         CHAR_CODE
+ 55  POLL_START_TIME                varchar(14)               YES         POLL_START_TIME
+ 56  FAIL_SUM_CNT                   decimal(10,0)             YES         FAIL_SUM_CNT
+ 57  FAIL_SUM_SEC                   decimal(20,0)             YES         FAIL_SUM_SEC
+ 58  FAIL_SUM_UPD                   varchar(14)               YES         FAIL_SUM_UPD
+ 59  USER_MACHINE_VER               text                      YES         USER_MACHINE_VER
+ 60  BEATS                          decimal(1,0)              YES         파일비트 사용여부
+ 61  NAME                           varchar(255)              YES         NAME
+ 62  SRC_GUID                       varchar(50)               YES         SRC_GUID
+ 63  SRC_SVR_NO                     decimal(10,0)             YES         SRC_SVR_NO
+ 64  PING_STATUS                    decimal(1,0)              YES         PING_STATUS
+ 65  PING_STATUS_UPD                varchar(14)               YES         PING_STATUS_UPD
+ 66  BACK_MNG_NO                    decimal(10,0)             YES         BACK_MNG_NO
+ 67  TMPL_NO                        decimal(10,0)             NO          TMPL_NO
+ 68  REMARKS                        varchar(255)              YES         비고
+ 69  DEV_MEMO                       text                      YES         DEV_MEMO
+ 70  TMS_FLAG                       varchar(1)                YES         TMS_FLAG
+ 71  FLOW_KIND_CD                   varchar(1)                YES         FLOW_KIND_CD
+ 72  FLOW_COL_YN                    varchar(1)                YES         FLOW_COL_YN
+ 73  MAINT_MEMO                     varchar(30)               YES         MAINT_MEMO
+ 74  POPUP_YN                       varchar(1)                YES         POPUP_YN
+ 75  AP_SUB1                        decimal(10,0)             YES         AP_SUB1
+ 76  THRHLD_GRP_NO                  bigint(20)                YES         THRHLD_GRP_NO
+ 77  AI_POLL                        decimal(1,0)              NO          머신러닝성능수집여부(0:미수집, 1:수집)
+ 78  DEV_LOCATION                   varchar(200)              YES         DEV_LOCATION
+
+==========================================================================================
+cm_dev_perf_1  (263,279건, 9컬럼)  PK: YYYYMMDD, YMDHMS, MNG_NO, ITEM_IDX, ITEM_TYPE, MODULE_TMPL_OID_SEQ
+DB코멘트: cm_dev_perf_1
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   YYYYMMDD
+  2  YMDHMS                         decimal(14,0)             NO    PRI   YMDHMS
+  3  MNG_NO                         decimal(10,0)             NO    PRI   MNG_NO
+  4  ITEM_IDX                       varchar(200)              NO    PRI   ITEM_IDX
+  5  ITEM_TYPE                      decimal(3,0)              NO    PRI   ITEM_TYPE
+  6  MODULE_TMPL_OID_SEQ            int(11)                   NO    PRI   모듈 시퀀스
+  7  RATE                           decimal(7,2)              YES         RATE
+  8  COUNT                          decimal(15,0)             YES         COUNT
+  9  ITEM_NAME                      varchar(100)              YES         ITEM_NAME
+
+==========================================================================================
+cm_dev_perf_last  (108건, 19컬럼)  PK: MNG_NO
+DB코멘트: cm_dev_perf_last
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  MNG_NO                         decimal(10,0)             NO    PRI   MNG_NO
+  2  CPU_VAL                        decimal(10,2)             YES         CPU_VAL
+  3  MEM_VAL                        decimal(10,2)             YES         MEM_VAL
+  4  TEMP_VAL                       decimal(10,2)             YES         TEMP_VAL
+  5  RESP_VAL                       decimal(10,2)             YES         
+  6  TOTAL_IF_COUNT                 decimal(10,0)             YES         TOTAL_IF_COUNT
+  7  ALIVE_IF_COUNT                 decimal(10,0)             YES         ALIVE_IF_COUNT
+  8  DEAD_IF_COUNT                  decimal(10,0)             YES         DEAD_IF_COUNT
+  9  POLL_IF_COUNT                  decimal(10,0)             YES         POLL_IF_COUNT
+ 10  CARD_COUNT                     decimal(10,0)             YES         CARD_COUNT
+ 11  MODULE_COUNT                   decimal(10,0)             YES         MODULE_COUNT
+ 12  LAST_CFG_UPD                   varchar(14)               YES         LAST_CFG_UPD
+ 13  LAST_UPD                       timestamp                 YES         LAST_UPD
+ 14  LAST_CFG                       longtext                  YES         LAST_CFG
+ 15  DISK_USE_PERCENT               decimal(5,2)              YES         DISK_USE_PERCENT
+ 16  VPN_SESSION_COUNT              decimal(10,0)             YES         VPN_SESSION_COUNT
+ 17  VPN_ACTIVE_TUNNEL              decimal(10,0)             YES         VPN_ACTIVE_TUNNEL
+ 18  LAST_ROUT                      longtext                  YES         LAST_ROUT
+ 19  LAST_ROUT_UPD                  varchar(14)               YES         LAST_ROUT_UPD
+
+==========================================================================================
+cm_if_perf_1  (1,298,886건, 62컬럼)  PK: YYYYMMDD, YMDHMS, MNG_NO, IF_IDX
+DB코멘트: cm_if_perf_1
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   YYYYMMDD
+  2  YMDHMS                         decimal(14,0)             NO    PRI   YMDHMS
+  3  MNG_NO                         decimal(10,0)             NO    PRI   MNG_NO
+  4  IF_IDX                         decimal(10,0)             NO    PRI   IF_IDX
+  5  SYSUPTIME                      decimal(10,0)             NO          SYSUPTIME
+  6  AVG_INBPS                      decimal(22,2)             YES         AVG_INBPS
+  7  MIN_INBPS                      decimal(22,2)             YES         MIN_INBPS
+  8  MAX_INBPS                      decimal(22,2)             YES         MAX_INBPS
+  9  AVG_OUTBPS                     decimal(22,2)             YES         AVG_OUTBPS
+ 10  MIN_OUTBPS                     decimal(22,2)             YES         MIN_OUTBPS
+ 11  MAX_OUTBPS                     decimal(22,2)             YES         MAX_OUTBPS
+ 12  TOTAL_BPS                      decimal(23,2)             YES         IN+OUT BPS 누적
+ 13  AVG_INPPS                      decimal(22,2)             YES         AVG_INPPS
+ 14  MIN_INPPS                      decimal(22,2)             YES         MIN_INPPS
+ 15  MAX_INPPS                      decimal(22,2)             YES         MAX_INPPS
+ 16  AVG_OUTPPS                     decimal(22,2)             YES         AVG_OUTPPS
+ 17  MIN_OUTPPS                     decimal(22,2)             YES         MIN_OUTPPS
+ 18  MAX_OUTPPS                     decimal(22,2)             YES         MAX_OUTPPS
+ 19  AVG_INERR                      decimal(20,0)             YES         AVG_INERR
+ 20  MIN_INERR                      decimal(20,0)             YES         MIN_INERR
+ 21  MAX_INERR                      decimal(20,0)             YES         MAX_INERR
+ 22  AVG_OUTERR                     decimal(20,0)             YES         AVG_OUTERR
+ 23  MIN_OUTERR                     decimal(20,0)             YES         MIN_OUTERR
+ 24  MAX_OUTERR                     decimal(20,0)             YES         MAX_OUTERR
+ 25  AVG_CRC                        decimal(20,0)             YES         AVG_CRC
+ 26  MIN_CRC                        decimal(20,0)             YES         MIN_CRC
+ 27  MAX_CRC                        decimal(20,0)             YES         MAX_CRC
+ 28  AVG_COLLISION                  decimal(20,0)             YES         AVG_COLLISION
+ 29  MIN_COLLISION                  decimal(20,0)             YES         MIN_COLLISION
+ 30  MAX_COLLISION                  decimal(20,0)             YES         MAX_COLLISION
+ 31  AVG_INDROP                     decimal(20,0)             YES         AVG_INDROP
+ 32  MIN_INDROP                     decimal(20,0)             YES         MIN_INDROP
+ 33  MAX_INDROP                     decimal(20,0)             YES         MAX_INDROP
+ 34  AVG_OUTDROP                    decimal(20,0)             YES         AVG_OUTDROP
+ 35  MIN_OUTDROP                    decimal(20,0)             YES         MIN_OUTDROP
+ 36  MAX_OUTDROP                    decimal(20,0)             YES         MAX_OUTDROP
+ 37  AVG_INNUPPS                    decimal(22,2)             YES         AVG_INNUPPS
+ 38  MIN_INNUPPS                    decimal(22,2)             YES         MIN_INNUPPS
+ 39  MAX_INNUPPS                    decimal(22,2)             YES         MAX_INNUPPS
+ 40  AVG_OUTNUPPS                   decimal(22,2)             YES         AVG_OUTNUPPS
+ 41  MIN_OUTNUPPS                   decimal(22,2)             YES         MIN_OUTNUPPS
+ 42  MAX_OUTNUPPS                   decimal(22,2)             YES         MAX_OUTNUPPS
+ 43  AVG_INDISCARD                  decimal(22,2)             YES         AVG_INDISCARD
+ 44  MIN_INDISCARD                  decimal(22,2)             YES         MIN_INDISCARD
+ 45  MAX_INDISCARD                  decimal(22,2)             YES         MAX_INDISCARD
+ 46  AVG_OUTDISCARD                 decimal(22,2)             YES         AVG_OUTDISCARD
+ 47  MIN_OUTDISCARD                 decimal(22,2)             YES         MIN_OUTDISCARD
+ 48  MAX_OUTDISCARD                 decimal(22,2)             YES         MAX_OUTDISCARD
+ 49  AVG_INMCASTPPS                 decimal(22,2)             YES         AVG_INMCASTPPS
+ 50  MIN_INMCASTPPS                 decimal(22,2)             YES         MIN_INMCASTPPS
+ 51  MAX_INMCASTPPS                 decimal(22,2)             YES         MAX_INMCASTPPS
+ 52  AVG_OUTMCASTPPS                decimal(22,2)             YES         AVG_OUTMCASTPPS
+ 53  MIN_OUTMCASTPPS                decimal(22,2)             YES         MIN_OUTMCASTPPS
+ 54  MAX_OUTMCASTPPS                decimal(22,2)             YES         MAX_OUTMCASTPPS
+ 55  AVG_INBCASTPPS                 decimal(22,2)             YES         AVG_INBCASTPPS
+ 56  MIN_INBCASTPPS                 decimal(22,2)             YES         MIN_INBCASTPPS
+ 57  MAX_INBCASTPPS                 decimal(22,2)             YES         MAX_INBCASTPPS
+ 58  AVG_OUTBCASTPPS                decimal(22,2)             YES         AVG_OUTBCASTPPS
+ 59  MIN_OUTBCASTPPS                decimal(22,2)             YES         MIN_OUTBCASTPPS
+ 60  MAX_OUTBCASTPPS                decimal(22,2)             YES         MAX_OUTBCASTPPS
+ 61  INBPS_RATE                     decimal(5,2)              YES         IN BPS 사용률
+ 62  OUTBPS_RATE                    decimal(5,2)              YES         OUT BPS 사용률
+
+==========================================================================================
+cm_if_perf_last  (189건, 22컬럼)  PK: MNG_NO, IF_IDX
+DB코멘트: cm_if_perf_last
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  MNG_NO                         decimal(10,0)             NO    PRI   MNG_NO
+  2  IF_IDX                         decimal(10,0)             NO    PRI   IF_IDX
+  3  AVG_INBPS                      decimal(20,0)             YES         AVG_INBPS
+  4  AVG_OUTBPS                     decimal(20,0)             YES         AVG_OUTBPS
+  5  TOTAL_BPS                      decimal(23,2)             YES         IN+OUT BPS
+  6  AVG_INPPS                      decimal(20,0)             YES         AVG_INPPS
+  7  AVG_OUTPPS                     decimal(20,0)             YES         AVG_OUTPPS
+  8  INBPS_RATE                     decimal(5,2)              YES         INBPS_RATE
+  9  OUTBPS_RATE                    decimal(5,2)              YES         OUTBPS_RATE
+ 10  IN_ERR_SUM                     decimal(20,0)             YES         IN_ERR_SUM
+ 11  OUT_ERR_SUM                    decimal(20,0)             YES         OUT_ERR_SUM
+ 12  CRC_SUM                        decimal(20,0)             YES         CRC_SUM
+ 13  COLLISION_SUM                  decimal(20,0)             YES         COLLISION_SUM
+ 14  IN_DROP_SUM                    decimal(20,0)             YES         IN_DROP_SUM
+ 15  OUT_DROP_SUM                   decimal(20,0)             YES         OUT_DROP_SUM
+ 16  LAST_UPD                       timestamp                 YES         LAST_UPD
+ 17  AVG_INDISCARD                  decimal(20,0)             YES         AVG_INDISCARD
+ 18  AVG_OUTDISCARD                 decimal(20,0)             YES         AVG_OUTDISCARD
+ 19  AVG_INMCASTPPS                 decimal(20,0)             YES         AVG_INMCASTPPS
+ 20  AVG_OUTMCASTPPS                decimal(20,0)             YES         AVG_OUTMCASTPPS
+ 21  AVG_INBCASTPPS                 decimal(20,0)             YES         AVG_INBCASTPPS
+ 22  AVG_OUTBCASTPPS                decimal(20,0)             YES         AVG_OUTBCASTPPS
+
+==========================================================================================
+tb_nms_dev_perf_5min  (517,399건, 8컬럼)  PK: YYYYMMDD, YMDHMS, MNG_NO, ITEM_TYPE, ITEM_IDX, MODULE_TMPL_OID_SEQ
+DB코멘트: 성능예측용 5분 통계 테이블(장비)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   YYYYMMDD
+  2  YMDHMS                         decimal(14,0)             NO    PRI   YMDHMS
+  3  MNG_NO                         decimal(10,0)             NO    PRI   MNG_NO
+  4  ITEM_TYPE                      decimal(3,0)              NO    PRI   ITEM_TYPE
+  5  ITEM_IDX                       varchar(200)              NO    PRI   ITEM_IDX
+  6  MODULE_TMPL_OID_SEQ            int(11)                   NO    PRI   모듈 시퀀스
+  7  AVG_VAL                        decimal(15,2)             YES         평균값
+  8  ITEM_NAME                      varchar(100)              YES         ITEM_NAME
+
+==========================================================================================
+tb_nms_if_perf_5min  (1,297,850건, 25컬럼)  PK: YYYYMMDD, YMDHMS, MNG_NO, IF_IDX
+DB코멘트: 성능예측용 5분 통계 테이블(회선)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   YYYYMMDD
+  2  YMDHMS                         decimal(14,0)             NO    PRI   YMDHMS
+  3  MNG_NO                         decimal(10,0)             NO    PRI   MNG_NO
+  4  IF_IDX                         decimal(10,0)             NO    PRI   IF_IDX
+  5  SYSUPTIME                      decimal(10,0)             NO          SYSUPTIME
+  6  AVG_INBPS                      decimal(22,2)             YES         AVG_INBPS
+  7  AVG_OUTBPS                     decimal(22,2)             YES         AVG_OUTBPS
+  8  AVG_INBPS_RATE                 decimal(5,2)              YES         평균 IN BPS 사용률
+  9  AVG_OUTBPS_RATE                decimal(5,2)              YES         평균 OUT BPS 사용률
+ 10  AVG_INPPS                      decimal(22,2)             YES         AVG_INPPS
+ 11  AVG_OUTPPS                     decimal(22,2)             YES         AVG_OUTPPS
+ 12  AVG_INERR                      decimal(20,0)             YES         AVG_INERR
+ 13  AVG_OUTERR                     decimal(20,0)             YES         AVG_OUTERR
+ 14  AVG_CRC                        decimal(20,0)             YES         AVG_CRC
+ 15  AVG_COLLISION                  decimal(20,0)             YES         AVG_COLLISION
+ 16  AVG_INDROP                     decimal(20,0)             YES         AVG_INDROP
+ 17  AVG_OUTDROP                    decimal(20,0)             YES         AVG_OUTDROP
+ 18  AVG_INNUPPS                    decimal(22,2)             YES         AVG_INNUPPS
+ 19  AVG_OUTNUPPS                   decimal(22,2)             YES         AVG_OUTNUPPS
+ 20  AVG_INDISCARD                  decimal(22,2)             YES         AVG_INDISCARD
+ 21  AVG_OUTDISCARD                 decimal(22,2)             YES         AVG_OUTDISCARD
+ 22  AVG_INMCASTPPS                 decimal(22,2)             YES         AVG_INMCASTPPS
+ 23  AVG_OUTMCASTPPS                decimal(22,2)             YES         AVG_OUTMCASTPPS
+ 24  AVG_INBCASTPPS                 decimal(22,2)             YES         AVG_INBCASTPPS
+ 25  AVG_OUTBCASTPPS                decimal(22,2)             YES         AVG_OUTBCASTPPS
+
+==========================================================================================
+tb_com_group_dev  (39건, 5컬럼)  PK: WORKER_CD, WORKER_NO, MNG_NO
+DB코멘트: 장비 그룹핑
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  WORKER_CD                      varchar(50)               NO    PRI   작업 종류 ( CM_CODE10.WORKER_CD )
+  2  WORKER_NO                      int(11)                   NO    PRI   작업 종류별 번호
+  3  MNG_NO                         int(11)                   NO    PRI   0 이면 ALL 
+  4  USE_FLAG                       tinyint(4)                NO          사용 여부 ( 0 : 미사용 , 1 : 사용 )
+  5  LAST_UPD                       timestamp                 NO          변경일시
+
+==========================================================================================
+cm_dev10_svr  (10건, 10컬럼)  PK: MNG_NO
+DB코멘트: cm_dev10_svr
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  MNG_NO                         decimal(10,0)             NO    PRI   장비번호
+  2  GUID                           varchar(100)              YES         GUID
+  3  FILE_NM                        varchar(100)              YES         파일명
+  4  FILE_VER                       varchar(20)               YES         파일버전
+  5  FILE_BIT                       varchar(10)               YES         파일비트(ALL, x86, x64)
+  6  DEV_KIND_EXT                   varchar(30)               YES         확장정보
+  7  HEALTH_DATETIME                datetime                  YES         Agent Health Check 시간
+  8  POLICY_YN                      varchar(1)                YES         정책 변경 여부
+  9  COLLECT_KIND                   varchar(50)               YES         COLLECT_KIND
+ 10  SVR_DESC                       varchar(200)              YES         SVR_DESC
+
+==========================================================================================
+nt_svr_cpu  (12건, 13컬럼)  PK: MNG_NO
+DB코멘트: 서버 CPU(LAST)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  2  CORES                          int(5)                    YES         코어수
+  3  IDLE_PCT                       decimal(5,2)              YES         IDLE_PCT
+  4  IOWAIT_PCT                     decimal(5,2)              YES         IOWAIT_PCT
+  5  IRQ_PCT                        decimal(5,2)              YES         IRQ_PCT
+  6  NICE_PCT                       decimal(5,2)              YES         NICE_PCT
+  7  SOFTIRQ_PCT                    decimal(5,2)              YES         SOFTIRQ_PCT
+  8  STEAL_PCT                      decimal(5,2)              YES         STEAL_PCT
+  9  SYSTEM_PCT                     decimal(5,2)              YES         SYSTEM_PCT
+ 10  USER_PCT                       decimal(5,2)              YES         USER_PCT
+ 11  CODE                           varchar(50)               YES         이벤트 코드
+ 12  RUN_QUEUE                      mediumint(9)              YES         RUN QUEUE
+ 13  LAST_UPD                       timestamp                 YES         LAST_UPD
+
+==========================================================================================
+nt_svr_cpu_3  (356건, 32컬럼)  PK: YYYYMMDD, TIME_ID, MNG_NO
+DB코멘트: 서버 CPU(1일)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   수신저장 날짜
+  2  YMDHMS                         decimal(14,0)             NO          수신저장 일시분초
+  3  TIME_ID                        decimal(10,0)             NO    PRI   업무시간(0:전체)
+  4  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  5  CORES                          int(5)                    YES         코어수
+  6  IDLE_PCT_AVG                   decimal(5,2)              YES         IDLE_PCT_AVG
+  7  IDLE_PCT_MAX                   decimal(5,2)              YES         IDLE_PCT_MAX
+  8  IDLE_PCT_MIN                   decimal(5,2)              YES         IDLE_PCT_MIN
+  9  IOWAIT_PCT_AVG                 decimal(5,2)              YES         IOWAIT_PCT_AVG
+ 10  IOWAIT_PCT_MAX                 decimal(5,2)              YES         IOWAIT_PCT_MAX
+ 11  IOWAIT_PCT_MIN                 decimal(5,2)              YES         IOWAIT_PCT_MIN
+ 12  IRQ_PCT_AVG                    decimal(5,2)              YES         IRQ_PCT_AVG
+ 13  IRQ_PCT_MAX                    decimal(5,2)              YES         IRQ_PCT_MAX
+ 14  IRQ_PCT_MIN                    decimal(5,2)              YES         IRQ_PCT_MIN
+ 15  NICE_PCT_AVG                   decimal(5,2)              YES         NICE_PCT_AVG
+ 16  NICE_PCT_MAX                   decimal(5,2)              YES         NICE_PCT_MAX
+ 17  NICE_PCT_MIN                   decimal(5,2)              YES         NICE_PCT_MIN
+ 18  SOFTIRQ_PCT_AVG                decimal(5,2)              YES         SOFTIRQ_PCT_AVG
+ 19  SOFTIRQ_PCT_MAX                decimal(5,2)              YES         SOFTIRQ_PCT_MAX
+ 20  SOFTIRQ_PCT_MIN                decimal(5,2)              YES         SOFTIRQ_PCT_MIN
+ 21  STEAL_PCT_AVG                  decimal(5,2)              YES         STEAL_PCT_AVG
+ 22  STEAL_PCT_MAX                  decimal(5,2)              YES         STEAL_PCT_MAX
+ 23  STEAL_PCT_MIN                  decimal(5,2)              YES         STEAL_PCT_MIN
+ 24  SYSTEM_PCT_AVG                 decimal(5,2)              YES         SYSTEM_PCT_AVG
+ 25  SYSTEM_PCT_MAX                 decimal(5,2)              YES         SYSTEM_PCT_MAX
+ 26  SYSTEM_PCT_MIN                 decimal(5,2)              YES         SYSTEM_PCT_MIN
+ 27  USER_PCT_AVG                   decimal(5,2)              YES         USER_PCT_AVG
+ 28  USER_PCT_MAX                   decimal(5,2)              YES         USER_PCT_MAX
+ 29  USER_PCT_MIN                   decimal(5,2)              YES         USER_PCT_MIN
+ 30  RUN_QUEUE_AVG                  decimal(10,1)             YES         RUN QUEUE
+ 31  RUN_QUEUE_MAX                  mediumint(9)              YES         RUN QUEUE
+ 32  RUN_QUEUE_MIN                  mediumint(9)              YES         RUN QUEUE
+
+==========================================================================================
+nt_svr_memory  (12건, 11컬럼)  PK: MNG_NO
+DB코멘트: 서버 메모리(LAST)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  2  PHYSICAL_TOTAL_SIZE            decimal(65,0)             NO          물리 총 용량
+  3  PHYSICAL_FREE_SIZE             decimal(65,0)             YES         물리 가용 용량
+  4  PHYSICAL_USED_PCT              decimal(5,2)              YES         물리 사용률
+  5  BUFFER                         decimal(65,0)             YES         BUFFER
+  6  CACHE                          decimal(65,0)             YES         CACHE
+  7  SWAP_TOTAL_SIZE                decimal(65,0)             NO          SWAP 총 용량
+  8  SWAP_FREE_SIZE                 decimal(65,0)             YES         SWAP 가용 용량
+  9  SWAP_USED_PCT                  decimal(5,2)              YES         SWAP 사용률
+ 10  LAST_UPD                       timestamp                 YES         마지막수집 날짜
+ 11  CODE                           varchar(50)               YES         이벤트코드
+
+==========================================================================================
+nt_svr_memory_3  (356건, 26컬럼)  PK: YYYYMMDD, TIME_ID, MNG_NO
+DB코멘트: 서버 메모리(1일)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   수신저장 날짜
+  2  YMDHMS                         decimal(14,0)             NO          수신저장 일시분초
+  3  TIME_ID                        decimal(10,0)             NO    PRI   업무시간(0:전체)
+  4  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  5  PHYSICAL_TOTAL_SIZE            decimal(65,0)             NO          물리 총 용량
+  6  PHYSICAL_FREE_SIZE             decimal(65,0)             YES         물리 가용 용량
+  7  PHYSICAL_USED_SIZE             decimal(65,0)             YES         PHYSICAL_USED_SIZE
+  8  PHYSICAL_USED_SIZE_MAX         decimal(65,0)             YES         PHYSICAL_USED_SIZE_MAX
+  9  PHYSICAL_USED_SIZE_MIN         decimal(65,0)             YES         PHYSICAL_USED_SIZE_MIN
+ 10  PHYSICAL_USED_PCT              decimal(5,2)              YES         물리 사용률
+ 11  PHYSICAL_USED_PCT_MAX          decimal(5,2)              YES         Max 퍼센트
+ 12  PHYSICAL_USED_PCT_MIN          decimal(5,2)              YES         MIN 퍼센트
+ 13  SWAP_TOTAL_SIZE                decimal(65,0)             NO          SWAP 총 용량
+ 14  SWAP_FREE_SIZE                 decimal(65,0)             YES         SWAP 가용 용량
+ 15  SWAP_USED_SIZE                 decimal(65,0)             YES         SWAP_USED_SIZE
+ 16  SWAP_USED_SIZE_MAX             decimal(65,0)             YES         SWAP_USED_SIZE_MAX
+ 17  SWAP_USED_SIZE_MIN             decimal(65,0)             YES         SWAP_USED_SIZE_MIN
+ 18  SWAP_USED_PCT                  decimal(5,2)              YES         SWAP 사용률
+ 19  SWAP_USED_PCT_MAX              decimal(5,2)              YES         Max 퍼센트
+ 20  SWAP_USED_PCT_MIN              decimal(5,2)              YES         MIN 퍼센트
+ 21  BUFFER                         decimal(65,0)             YES         BUFFER
+ 22  BUFFER_MAX                     decimal(65,0)             YES         BUFFER(최대)
+ 23  BUFFER_MIN                     decimal(65,0)             YES         BUFFER(최소)
+ 24  CACHE                          decimal(65,0)             YES         CACHE
+ 25  CACHE_MAX                      decimal(65,0)             YES         CACHE(최대)
+ 26  CACHE_MIN                      decimal(65,0)             YES         CACHE(최소)
+
+==========================================================================================
+nt_svr_filesystem  (42건, 11컬럼)  PK: MNG_NO, MOUNT_POINT, DEVICE_NAME
+DB코멘트: 서버 파일시스템(LAST)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  2  MOUNT_POINT                    varchar(200)              NO    PRI   
+  3  DEVICE_NAME                    varchar(200)              NO    PRI   
+  4  TOTAL_SIZE                     decimal(65,0)             YES         총 용량
+  5  FREE_SIZE                      decimal(65,0)             YES         가용 용량
+  6  USED_PCT                       decimal(5,2)              YES         사용률
+  7  FILE_COUNT                     decimal(65,0)             YES         파일 갯수
+  8  CODE                           varchar(50)               YES         이벤트코드
+  9  LAST_UPD                       timestamp                 YES         마지막수집 날짜
+ 10  USE_FLAG                       tinyint(4)                YES         모니터 대상 여부 0:비대상 1:대상
+ 11  LIMIT_TYPE                     tinyint(4)                YES         임계치 타입 설정 값 저장(CM_CODE10 , LIMIT_TYPE)
+
+==========================================================================================
+nt_svr_filesystem_3  (610건, 10컬럼)  PK: YYYYMMDD, TIME_ID, MNG_NO, MOUNT_POINT, DEVICE_NAME
+DB코멘트: 서버 파일시스템(1일)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   수신저장 날짜
+  2  YMDHMS                         decimal(14,0)             NO          수신저장 일시분초
+  3  TIME_ID                        decimal(10,0)             NO    PRI   TIME_ID
+  4  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  5  MOUNT_POINT                    varchar(200)              NO    PRI   
+  6  DEVICE_NAME                    varchar(200)              NO    PRI   
+  7  TOTAL_SIZE                     decimal(65,0)             NO          총 용량
+  8  FREE_SIZE                      decimal(65,0)             YES         가용 용량
+  9  USED_PCT                       decimal(5,2)              YES         사용률
+ 10  FILE_COUNT                     decimal(65,0)             YES         파일 갯수
+
+==========================================================================================
+nt_svr_network  (31건, 19컬럼)  PK: MNG_NO, IF_IDX
+DB코멘트: 서버 네트워크(LAST)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  2  IF_IDX                         smallint(6)               NO    PRI   네트워크 IDX
+  3  NAME                           varchar(100)              NO          네트워크명
+  4  BAND_WIDTH                     decimal(65,0)             YES         대역폭
+  5  IN_BPS                         decimal(65,0)             YES         IN BPS
+  6  IN_PPS                         decimal(65,0)             YES         IN PPS
+  7  IN_BYTES                       decimal(65,0)             YES         IN BYTES
+  8  IN_DROP                        decimal(65,0)             YES         IN DROP
+  9  IN_ERR                         decimal(65,0)             YES         IN ERR
+ 10  IN_PKT                         decimal(65,0)             YES         IN PACKETS
+ 11  OUT_BPS                        decimal(65,0)             YES         OUT BPS
+ 12  OUT_PPS                        decimal(65,0)             YES         OUT PPS
+ 13  OUT_BYTES                      decimal(65,0)             YES         OUT BYTES
+ 14  OUT_DROP                       decimal(65,0)             YES         OUT DROP
+ 15  OUT_ERR                        decimal(65,0)             YES         OUT ERR
+ 16  OUT_PKT                        decimal(65,0)             YES         OUT PACKETS
+ 17  IN_BPS_RATE                    decimal(5,2)              YES         IN_BPS_RATE
+ 18  OUT_BPS_RATE                   decimal(5,2)              YES         OUT_BPS_RATE
+ 19  LAST_UPD                       timestamp                 YES         LAST_UPD
+
+==========================================================================================
+nt_svr_network_3  (356건, 33컬럼)  PK: YYYYMMDD, TIME_ID, MNG_NO, IF_IDX
+DB코멘트: 서버 네트워크(1일)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   수신저장 날짜
+  2  YMDHMS                         decimal(14,0)             NO          수신저장 일시분초
+  3  TIME_ID                        decimal(10,0)             NO    PRI   업무시간(0:전체)
+  4  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  5  IF_IDX                         smallint(6)               NO    PRI   INDEX
+  6  IN_BPS_AVG                     decimal(65,0)             YES         IN BPS AVG
+  7  IN_BPS_MAX                     decimal(65,0)             YES         IN BPS MAX
+  8  IN_BPS_MIN                     decimal(65,0)             YES         IN BPS MIN
+  9  IN_PPS_AVG                     decimal(65,0)             YES         IN PPS AVG
+ 10  IN_PPS_MAX                     decimal(65,0)             YES         IN PPS MAX
+ 11  IN_PPS_MIN                     decimal(65,0)             YES         IN PPS MIN
+ 12  IN_BYTES                       decimal(65,0)             YES         IN BYTES
+ 13  IN_PKT                         decimal(65,0)             YES         IN PACKETS
+ 14  IN_DROP_AVG                    decimal(65,0)             YES         IN DROP AVG
+ 15  IN_DROP_MAX                    decimal(65,0)             YES         IN DROP MAX
+ 16  IN_DROP_MIN                    decimal(65,0)             YES         IN DROP MIN
+ 17  IN_ERR_AVG                     decimal(65,0)             YES         IN ERR AVG
+ 18  IN_ERR_MAX                     decimal(65,0)             YES         IN ERR MAX
+ 19  IN_ERR_MIN                     decimal(65,0)             YES         IN ERR MIN
+ 20  OUT_BPS_AVG                    decimal(65,0)             YES         OUT BPS_AVG
+ 21  OUT_BPS_MAX                    decimal(65,0)             YES         OUT BPS_MAX
+ 22  OUT_BPS_MIN                    decimal(65,0)             YES         OUT BPS_MIN
+ 23  OUT_PPS_AVG                    decimal(65,0)             YES         OUT PPS_AVG
+ 24  OUT_PPS_MAX                    decimal(65,0)             YES         OUT PPS_MAX
+ 25  OUT_PPS_MIN                    decimal(65,0)             YES         OUT PPS_MIN
+ 26  OUT_BYTES                      decimal(65,0)             YES         OUT BYTES
+ 27  OUT_PKT                        decimal(65,0)             YES         OUT PACKETS
+ 28  OUT_DROP_AVG                   decimal(65,0)             YES         OUT DROP AVG
+ 29  OUT_DROP_MAX                   decimal(65,0)             YES         OUT DROP MAX
+ 30  OUT_DROP_MIN                   decimal(65,0)             YES         OUT DROP MIN
+ 31  OUT_ERR_AVG                    decimal(65,0)             YES         OUT ERR AVG
+ 32  OUT_ERR_MAX                    decimal(65,0)             YES         OUT ERR MAX
+ 33  OUT_ERR_MIN                    decimal(65,0)             YES         OUT ERR MIN
+
+==========================================================================================
+nt_svr_process_3  (36,023건, 27컬럼)  PK: YYYYMMDD, TIME_ID, MNG_NO, PID, NAME
+DB코멘트: 서버 프로세스(1일)
+==========================================================================================
+ No  컬럼명                            타입                        NULL  Key   코멘트
+---  ------------------------------ ------------------------- ----- ----- ------------------------------
+  1  YYYYMMDD                       int(8)                    NO    PRI   수신저장 날짜
+  2  YMDHMS                         decimal(14,0)             NO          수신저장 일시분초
+  3  TIME_ID                        decimal(10,0)             NO    PRI   TIME_ID
+  4  MNG_NO                         decimal(10,0)             NO    PRI   서버번호
+  5  PID                            int(11)                   NO    PRI   PID
+  6  NAME                           varchar(100)              NO    PRI   프로세스명
+  7  PPID                           int(11)                   YES         부모 PID
+  8  MPROC_YN                       varchar(1)                NO          감시프로세스 여부(Y,N)
+  9  CMDLINE                        text                      NO          CMD
+ 10  USERNAME                       varchar(50)               YES         사용자명
+ 11  STATE                          varchar(30)               YES         상태
+ 12  START_TIME                     datetime                  YES         실행 시간
+ 13  CPU_PCT                        decimal(5,2)              NO          CPU 사용률
+ 14  CPU_PCT_MAX                    decimal(5,2)              NO          CPU 사용률(MAX)
+ 15  CPU_PCT_MIN                    decimal(5,2)              NO          CPU 사용률(MIN)
+ 16  MEM_RSS                        decimal(65,0)             NO          RSS 메모리
+ 17  MEM_RSS_MAX                    decimal(65,0)             NO          RSS 메모리(MAX)
+ 18  MEM_RSS_MIN                    decimal(65,0)             NO          RSS 메모리(MIN)
+ 19  MEM_PCT                        decimal(5,2)              NO          메모리 사용륭
+ 20  MEM_PCT_MAX                    decimal(5,2)              NO          메모리 사용륭(MAX)
+ 21  MEM_PCT_MIN                    decimal(5,2)              NO          메모리 사용륭(MIN)
+ 22  MEM_SHARE                      decimal(65,0)             NO          Share 메모리
+ 23  MEM_SHARE_MAX                  decimal(65,0)             NO          Share 메모리(MAX)
+ 24  MEM_SHARE_MIN                  decimal(65,0)             NO          Share 메모리(MIN)
+ 25  MEM_SIZE                       decimal(65,0)             NO          page out 포함 메모리
+ 26  MEM_SIZE_MAX                   decimal(65,0)             NO          page out 포함 메모리(MAX)
+ 27  MEM_SIZE_MIN                   decimal(65,0)             NO          page out 포함 메모리(MIN)

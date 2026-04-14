@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(pip install:*)",
+      "Bash(python -m streamlit:*)",
+      "Bash(curl:*)",
+      "Bash(ping:*)",
+      "Bash(python -c \"\nimport requests\nimport socket\n\nhost = ''210.107.60.21''\nport = 11434\n\n# 포트 연결 테스트\nprint(f''=== 포트 {port} 연결 테스트 ==='')\ntry:\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    sock.settimeout(5)\n    result = sock.connect_ex((host, port))\n    if result == 0:\n        print(f''포트 {port}: 열림'')\n    else:\n        print(f''포트 {port}: 닫힘 (에러코드: {result})'')\n    sock.close()\nexcept Exception as e:\n    print(f''소켓 에러: {e}'')\n\n# HTTP 테스트\nprint(f''\\n=== HTTP 연결 테스트 ==='')\ntry:\n    r = requests.get(f''http://{host}:{port}/api/tags'', timeout=10)\n    print(f''상태코드: {r.status_code}'')\n    print(f''응답: {r.text[:200]}'')\nexcept requests.exceptions.ConnectTimeout:\n    print(''연결 타임아웃 - 포트가 막혀있거나 서비스 중지'')\nexcept requests.exceptions.ConnectionError as e:\n    print(f''연결 실패: {e}'')\nexcept Exception as e:\n    print(f''에러: {e}'')\n\")",
+      "Bash(python:*)",
+      "Bash(cd:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}
